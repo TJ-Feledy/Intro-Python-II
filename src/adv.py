@@ -2,6 +2,7 @@ from room import Room
 from player import Player
 
 import textwrap
+import time
 
 # Declare all the rooms
 
@@ -41,7 +42,8 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player('Add Venturer', 'outside')
+location = 'outside'
+player = Player('Add Venturer', location)
 
 
 # Write a loop that:
@@ -55,7 +57,56 @@ player = Player('Add Venturer', 'outside')
 #
 # If the user enters "q", quit the game.
 
-while player:
+while player.current_room:
   print(room[player.current_room].name)
   print(textwrap.fill(room[player.current_room].description, 40))
-  break
+  user_input = input("""What would you like to do? (enter 'q' to quit)
+  To move use:
+  n for North,
+  s for South,
+  e for East,
+  w for West,
+  and press enter ---> """)
+  if user_input == 'n':
+    if player.current_room == 'outside':
+      player.current_room = 'foyer'
+    elif player.current_room == 'foyer':
+      player.current_room = 'overlook'
+    elif player.current_room == 'narrow':
+      player.current_room = 'treasure'
+    else:
+      print('There is nothing in this direction!')
+      time.sleep(2)
+      continue
+  elif user_input == 's':
+    if player.current_room == 'foyer':
+      player.current_room = 'outside'
+    elif player.current_room == 'overlook':
+      player.current_room = 'foyer'
+    elif player.current_room == 'treasure':
+      player.current_room = 'narrow'
+    else:
+      print('There is nothing in this direction!')
+      time.sleep(2)
+      continue
+  elif user_input == 'e':
+    if player.current_room == 'foyer':
+      player.current_room = 'narrow'
+    else:
+      print('There is nothing in this direction!')
+      time.sleep(3)
+      continue
+  elif user_input == 'w':
+    if player.current_room == 'narrow':
+      player.current_room = 'foyer'
+    else:
+      print('There is nothing in this direction!')
+      time.sleep(3)
+      continue
+  elif user_input == 'q':
+    print(f'Good bye {player.name}, until next time!')
+    time.sleep(3)
+  else:
+    print(f'You entered {user_input}, that does nothing. Sorry')
+    time.sleep(3)
+    continue
