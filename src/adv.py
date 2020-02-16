@@ -3,6 +3,7 @@ from player import Player
 
 import textwrap
 import time
+import asyncio
 
 # Declare all the rooms
 
@@ -75,8 +76,11 @@ while player.current_room:
     elif player.current_room == 'narrow':
       player.current_room = 'treasure'
     else:
-      print('There is nothing in this direction!')
-      time.sleep(2)
+      async def response():
+        print('There is nothing in this direction!')
+        await asyncio.sleep(3)
+
+      asyncio.run(response())
       continue
   elif user_input == 's':
     if player.current_room == 'foyer':
@@ -86,27 +90,43 @@ while player.current_room:
     elif player.current_room == 'treasure':
       player.current_room = 'narrow'
     else:
-      print('There is nothing in this direction!')
-      time.sleep(2)
+      async def response():
+        print('There is nothing in this direction!')
+        await asyncio.sleep(3)
+
+      asyncio.run(response())
       continue
   elif user_input == 'e':
     if player.current_room == 'foyer':
       player.current_room = 'narrow'
     else:
-      print('There is nothing in this direction!')
-      time.sleep(3)
+      async def response():
+        print('There is nothing in this direction!')
+        await asyncio.sleep(3)
+
+      asyncio.run(response())
       continue
   elif user_input == 'w':
     if player.current_room == 'narrow':
       player.current_room = 'foyer'
     else:
-      print('There is nothing in this direction!')
-      time.sleep(3)
+      async def response():
+        print('There is nothing in this direction!')
+        await asyncio.sleep(3)
+
+      asyncio.run(response())
       continue
   elif user_input == 'q':
-    print(f'Good bye {player.name}, until next time!')
-    time.sleep(3)
+    async def response():
+      print(f'Good bye {player.name}, until next time!')
+      await asyncio.sleep(3)
+
+    asyncio.run(response())
+    break
   else:
-    print(f'You entered {user_input}, that does nothing. Sorry')
-    time.sleep(3)
+    async def response():
+      print(f'You entered {user_input}, that does nothing. Sorry')
+      await asyncio.sleep(3)
+      
+    asyncio.run(response())
     continue
