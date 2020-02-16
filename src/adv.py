@@ -59,9 +59,10 @@ player = Player('Add Venturer', location)
 # If the user enters "q", quit the game.
 
 while player.current_room:
-  print(room[player.current_room].name)
-  print(textwrap.fill(room[player.current_room].description, 40))
-  user_input = input("""What would you like to do? (enter 'q' to quit)
+  print(f'\n---{room[player.current_room].name}---')
+  print(f'{textwrap.fill(room[player.current_room].description, 40)}')
+  user_input = input("""
+What would you like to do? (enter 'q' to quit)
   To move use:
   n for North,
   s for South,
@@ -77,7 +78,7 @@ while player.current_room:
       player.current_room = 'treasure'
     else:
       async def response():
-        print('There is nothing in this direction!')
+        print('\nThere is nothing in this direction!')
         await asyncio.sleep(3)
 
       asyncio.run(response())
@@ -91,7 +92,7 @@ while player.current_room:
       player.current_room = 'narrow'
     else:
       async def response():
-        print('There is nothing in this direction!')
+        print('\nThere is nothing in this direction!')
         await asyncio.sleep(3)
 
       asyncio.run(response())
@@ -101,7 +102,7 @@ while player.current_room:
       player.current_room = 'narrow'
     else:
       async def response():
-        print('There is nothing in this direction!')
+        print('\nThere is nothing in this direction!')
         await asyncio.sleep(3)
 
       asyncio.run(response())
@@ -111,21 +112,21 @@ while player.current_room:
       player.current_room = 'foyer'
     else:
       async def response():
-        print('There is nothing in this direction!')
+        print('\nThere is nothing in this direction!')
         await asyncio.sleep(3)
 
       asyncio.run(response())
       continue
   elif user_input == 'q':
     async def response():
-      print(f'Good bye {player.name}, until next time!')
+      print(f'\nGood bye {player.name}, until next time!')
       await asyncio.sleep(3)
 
     asyncio.run(response())
     break
   else:
     async def response():
-      print(f'You entered {user_input}, that does nothing. Sorry')
+      print(f'\nYou entered {user_input}, that does nothing. Sorry')
       await asyncio.sleep(3)
       
     asyncio.run(response())
