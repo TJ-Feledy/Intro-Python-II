@@ -11,3 +11,7 @@ class Room:
     self.name = name
     self.description = description
     
+  # def __str__(self):
+  #   for i in self.name:
+  #     output = f'\n{i}'
+  #   return output

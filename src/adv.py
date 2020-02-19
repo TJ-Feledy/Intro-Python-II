@@ -43,7 +43,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-location = 'outside'
+location = room['outside']
 player = Player('Add Venturer', location)
 
 
@@ -59,8 +59,9 @@ player = Player('Add Venturer', location)
 # If the user enters "q", quit the game.
 
 while player.current_room:
-  print(f'\n---{room[player.current_room].name}---')
-  print(f'{textwrap.fill(room[player.current_room].description, 40)}')
+  print(f'\n---{player.current_room.name}---')
+  print(f'{textwrap.fill(player.current_room.description, 40)}')
+  # print(player.current_room.n_to)
   user_input = input("""
 What would you like to do? (enter 'q' to quit)
   To move use:
@@ -70,12 +71,8 @@ What would you like to do? (enter 'q' to quit)
   w for West,
   and press enter ---> """)
   if user_input == 'n':
-    if player.current_room == 'outside':
-      player.current_room = 'foyer'
-    elif player.current_room == 'foyer':
-      player.current_room = 'overlook'
-    elif player.current_room == 'narrow':
-      player.current_room = 'treasure'
+    if player.current_room.n_to:
+      player.current_room = player.current_room.n_to
     else:
       async def response():
         print('\nThere is nothing in this direction!')
@@ -84,12 +81,8 @@ What would you like to do? (enter 'q' to quit)
       asyncio.run(response())
       continue
   elif user_input == 's':
-    if player.current_room == 'foyer':
-      player.current_room = 'outside'
-    elif player.current_room == 'overlook':
-      player.current_room = 'foyer'
-    elif player.current_room == 'treasure':
-      player.current_room = 'narrow'
+    if player.current_room.s_to:
+      player.current_room = player.current_room.s_to
     else:
       async def response():
         print('\nThere is nothing in this direction!')
@@ -98,8 +91,8 @@ What would you like to do? (enter 'q' to quit)
       asyncio.run(response())
       continue
   elif user_input == 'e':
-    if player.current_room == 'foyer':
-      player.current_room = 'narrow'
+    if player.current_room.e_to:
+      player.current_room = player.current_room.e_to
     else:
       async def response():
         print('\nThere is nothing in this direction!')
@@ -108,8 +101,8 @@ What would you like to do? (enter 'q' to quit)
       asyncio.run(response())
       continue
   elif user_input == 'w':
-    if player.current_room == 'narrow':
-      player.current_room = 'foyer'
+    if player.current_room.w_to:
+      player.current_room = player.current_room.w_to
     else:
       async def response():
         print('\nThere is nothing in this direction!')
