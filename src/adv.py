@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 import textwrap
 import time
@@ -9,14 +10,15 @@ import asyncio
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", [Item('lantern', 'It\'s an old gas lantern.'),
+                     Item('lighter', 'Oh? You must have dropped this.')]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", ),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -57,19 +59,24 @@ player = Player('Add Venturer', location)
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+room_items = f'Room Items: '
+for i in player.current_room.items:
+  room_items += f' -{i.name}- '
+
+your_items = f'Your Items: '
+for i in player.items:
+  your_items += f' -{i.name}- '
 
 while player.current_room:
   print(f'\n---{player.current_room.name}---')
   print(f'{textwrap.fill(player.current_room.description, 40)}')
-  # print(player.current_room.n_to)
+  print(f'\n{room_items}')
+  print(your_items)
   user_input = input("""
 What would you like to do? (enter 'q' to quit)
-  To move use:
-  n for North,
-  s for South,
-  e for East,
-  w for West,
-  and press enter ---> """)
+  Enter 'take item_name' to take an item from the room,
+  To move use: 'n' for North, 's' for South, 'e' for East, 'w' for West,
+and press enter ---> """)
   if user_input == 'n':
     if player.current_room.n_to:
       player.current_room = player.current_room.n_to
