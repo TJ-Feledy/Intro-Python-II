@@ -71,15 +71,15 @@ while player.current_room:
   for i in player.items:
     your_items += f' -{i.name}- '
 
-  print(f'\n---{player.current_room.name}---')
+  print(f'\n-----------------------------------------------------------\n---{player.current_room.name}---')
   print(f'{textwrap.fill(player.current_room.description, 40)}')
   print(f'\n{room_items}')
   print(your_items)
-  user_input = input("""
-What would you like to do? (enter 'q' to quit)
-  Enter 'take item_name' to take an item from the room,
-  To move use: 'n' for North, 's' for South, 'e' for East, 'w' for West,
-and press enter ---> """).lower()
+  user_input = input("""                                          To move:              'n' for North
+  Enter 'take item_name' to take/get an item from the room,                'w' for West        +      'e' for East
+  Enter 'drop item_name' to drop/leave an item from your inventory,                     's' for South
+What would you like to do? (enter 'q' to quit) ---> """).lower()
+  print('\n-----------------------------------------------------------')
   if len(user_input.split()) == 1:
     if user_input == 'n':
       if player.current_room.n_to:
