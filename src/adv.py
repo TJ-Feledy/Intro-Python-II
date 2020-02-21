@@ -9,7 +9,7 @@ import asyncio
 # Declare all the rooms
 
 lantern = Item('lantern', 'It\'s an old gas lantern.')
-lighter = Item('lighter', 'Oh? You must have dropped this.')
+lighter = Item('lighter', 'Oh... How did this get here?')
 
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -71,69 +71,53 @@ while player.current_room:
   for i in player.items:
     your_items += f' -{i.name}- '
 
+  player.name = input('\nWelcome Adventurer! What is your name? --->  ')
+
   print(f'\n-----------------------------------------------------------\n---{player.current_room.name}---')
   print(f'{textwrap.fill(player.current_room.description, 40)}')
   print(f'\n{room_items}')
   print(your_items)
-  user_input = input("""                                          To move:              'n' for North
+  user_input = input("""   
+                                                                  To move:              'n' for North
   Enter 'take item_name' to take/get an item from the room,                'w' for West        +      'e' for East
   Enter 'drop item_name' to drop/leave an item from your inventory,                     's' for South
+
 What would you like to do? (enter 'q' to quit) ---> """).lower()
   print('\n-----------------------------------------------------------')
   if len(user_input.split()) == 1:
     if user_input == 'n':
       if player.current_room.n_to:
         player.current_room = player.current_room.n_to
+        print(f'You have moved North to {player.current_room.name}')
       else:
-        async def response():
-          print('\nThere is nothing in this direction!')
-          await asyncio.sleep(3)
-
-        asyncio.run(response())
+        print('\nThere is nothing in this direction!')      
         continue
     elif user_input == 's':
       if player.current_room.s_to:
         player.current_room = player.current_room.s_to
+        print(f'You have moved South to {player.current_room.name}')
       else:
-        async def response():
-          print('\nThere is nothing in this direction!')
-          await asyncio.sleep(3)
-
-        asyncio.run(response())
+        print('\nThere is nothing in this direction!')      
         continue
     elif user_input == 'e':
       if player.current_room.e_to:
         player.current_room = player.current_room.e_to
+        print(f'You have moved East to {player.current_room.name}')
       else:
-        async def response():
-          print('\nThere is nothing in this direction!')
-          await asyncio.sleep(3)
-
-        asyncio.run(response())
+        print('\nThere is nothing in this direction!')      
         continue
     elif user_input == 'w':
       if player.current_room.w_to:
         player.current_room = player.current_room.w_to
+        print(f'You have moved West to {player.current_room.name}')
       else:
-        async def response():
-          print('\nThere is nothing in this direction!')
-          await asyncio.sleep(3)
-
-        asyncio.run(response())
+        print('\nThere is nothing in this direction!')      
         continue
     elif user_input == 'q':
-      async def response():
-        print(f'\nGood bye {player.name}, until next time!')
-        await asyncio.sleep(3)
-
-      asyncio.run(response())
+      print(f'\nGood bye {player.name}, until next time!')      
       break
     else:
-      async def response():
-        print(f'\nYou entered {user_input}, that does nothing. Sorry')
-        await asyncio.sleep(3)
-        
-      asyncio.run(response())
+      print(f'\nYou entered {user_input}, that does nothing. Sorry')      
       continue
 
   elif len(user_input.split()) == 2:
@@ -147,18 +131,9 @@ What would you like to do? (enter 'q' to quit) ---> """).lower()
           if i.name == picked_item:
             player.current_room.items.remove(i)
             player.items.append(i)
-            async def response():
-              i.on_take()
-              await asyncio.sleep(3)
-              
-            asyncio.run(response())
-            continue
+            i.on_take()      
       else:
-        async def response():
-          print(f'\nThere is no such item in this room!')
-          await asyncio.sleep(3)
-          
-        asyncio.run(response())
+        print(f'\nThere is no such item in this room!')      
         continue
 
     elif user_input.split()[0] in ['drop', 'leave']:
@@ -167,31 +142,14 @@ What would you like to do? (enter 'q' to quit) ---> """).lower()
           if i.name == picked_item:
             player.items.remove(i)
             player.current_room.items.append(i)
-            async def response():
-              i.on_drop()
-              await asyncio.sleep(3)
-              
-            asyncio.run(response())
-            continue
+            i.on_drop()      
       else:
-        async def response():
-          print(f'\nYou do not posses that item!')
-          await asyncio.sleep(3)
-          
-        asyncio.run(response())
+        print(f'\nYou do not posses that item!')      
         continue
     else:
-      async def response():
-        print(f'\n{user_input.split()[0]} is not a valid action!')
-        await asyncio.sleep(3)
-        
-      asyncio.run(response())
+      print(f'\n{user_input.split()[0]} is not a valid action!')      
       continue
 
   else:
-    async def response():
-      print(f'\n{user_input} is not a valid action!')
-      await asyncio.sleep(3)
-        
-    asyncio.run(response())
+    print(f'\n{user_input} is not a valid action!')      
     continue
