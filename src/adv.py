@@ -84,46 +84,56 @@ while player.current_room:
 
 What would you like to do? (enter 'q' to quit) ---> """).lower()
   print('\n-----------------------------------------------------------')
+
+  room_items_names = [i.name for i in player.current_room.items]
+  player_items_names = [i.name for i in player.items]
+
   if len(user_input.split()) == 1:
-    if user_input == 'n':
-      if player.current_room.n_to:
-        player.current_room = player.current_room.n_to
-        print(f'You have moved North to {player.current_room.name}')
-      else:
-        print('\nThere is nothing in this direction!')      
-        continue
-    elif user_input == 's':
-      if player.current_room.s_to:
-        player.current_room = player.current_room.s_to
-        print(f'You have moved South to {player.current_room.name}')
-      else:
-        print('\nThere is nothing in this direction!')      
-        continue
-    elif user_input == 'e':
-      if player.current_room.e_to:
-        player.current_room = player.current_room.e_to
-        print(f'You have moved East to {player.current_room.name}')
-      else:
-        print('\nThere is nothing in this direction!')      
-        continue
-    elif user_input == 'w':
-      if player.current_room.w_to:
-        player.current_room = player.current_room.w_to
-        print(f'You have moved West to {player.current_room.name}')
-      else:
-        print('\nThere is nothing in this direction!')      
-        continue
-    elif user_input == 'q':
-      print(f'\nGood bye {player.name}, until next time!')      
-      break
+    if 'lantern' not in player_items_names and 'lighter' not in player_items_names:
+      print('\nIt is way too dark in there.  If only there was a way to create enough light to see...')
+    elif 'lantern' in player_items_names and 'lighter' not in player_items_names:
+      print('\nYou have a lantern and the gas is full, but there must be something else you need.')
+    elif 'lantern' not in player_items_names and 'lighter' in player_items_names:
+      print('\nYou have a lighter, but that won\'t be enough light by it\'s self. There must be something else you need.')
     else:
-      print(f'\nYou entered {user_input}, that does nothing. Sorry')      
-      continue
+      
+      if user_input == 'n':
+        if player.current_room.n_to:
+          player.current_room = player.current_room.n_to
+          print(f'You have moved North to {player.current_room.name}')
+        else:
+          print('\nThere is nothing in this direction!')      
+          continue
+      elif user_input == 's':
+        if player.current_room.s_to:
+          player.current_room = player.current_room.s_to
+          print(f'You have moved South to {player.current_room.name}')
+        else:
+          print('\nThere is nothing in this direction!')      
+          continue
+      elif user_input == 'e':
+        if player.current_room.e_to:
+          player.current_room = player.current_room.e_to
+          print(f'You have moved East to {player.current_room.name}')
+        else:
+          print('\nThere is nothing in this direction!')      
+          continue
+      elif user_input == 'w':
+        if player.current_room.w_to:
+          player.current_room = player.current_room.w_to
+          print(f'You have moved West to {player.current_room.name}')
+        else:
+          print('\nThere is nothing in this direction!')      
+          continue
+      elif user_input == 'q':
+        print(f'\nGood bye {player.name}, until next time!')      
+        break
+      else:
+        print(f'\nYou entered {user_input}, that does nothing. Sorry')      
+        continue
 
   elif len(user_input.split()) == 2:
     picked_item = user_input.split()[1]
-    room_items_names = [i.name for i in player.current_room.items]
-    player_items_names = [i.name for i in player.items]
 
     if user_input.split()[0] in ['take', 'get']:
       if picked_item in room_items_names:
