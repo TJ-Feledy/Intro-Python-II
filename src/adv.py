@@ -10,6 +10,8 @@ import asyncio
 
 lantern = Item('lantern', 'It\'s an old gas lantern.')
 lighter = Item('lighter', 'Nice! A Zippo.')
+greatsword = Item('greatsword', 'A six foot, two handed sword.')
+money = Item('crumpled-paper', 'Sahweeet... It\'s 50 bucks!')
 
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -20,14 +22,14 @@ passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", ),
+the distance, but there is no way across the chasm.""", [greatsword]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.  I can't believe there is nothing left!""", [money]),
 }
 
 
@@ -140,11 +142,14 @@ What would you like to do? (enter 'q' to quit) ---> """).lower()
 
     if user_input.split()[0] in ['take', 'get']:
       if picked_item in room_items_names:
-        for i in player.current_room.items:
-          if i.name == picked_item:
-            player.current_room.items.remove(i)
-            player.items.append(i)
-            i.on_take()      
+        if picked_item == greatsword.name:
+          print(f'\n{greatsword.description}\nYou need a free hand for the lantern!\nIt is awesome, but you cannot wield it.')
+        else:
+          for i in player.current_room.items:
+            if i.name == picked_item:
+              player.current_room.items.remove(i)
+              player.items.append(i)
+              i.on_take()      
       else:
         print(f'\nThere is no such item in this room!')      
         continue
