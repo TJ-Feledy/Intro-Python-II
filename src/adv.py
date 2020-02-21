@@ -61,15 +61,16 @@ player = Player('Add Venturer', location)
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-room_items = f'Room Items: '
-for i in player.current_room.items:
-  room_items += f' -{i.name}- '
-
-your_items = f'Your Items: '
-for i in player.items:
-  your_items += f' -{i.name}- '
 
 while player.current_room:
+  room_items = f'Room Items: '
+  for i in player.current_room.items:
+    room_items += f' -{i.name}- '
+
+  your_items = f'Your Items: '
+  for i in player.items:
+    your_items += f' -{i.name}- '
+
   print(f'\n---{player.current_room.name}---')
   print(f'{textwrap.fill(player.current_room.description, 40)}')
   print(f'\n{room_items}')
@@ -143,7 +144,14 @@ and press enter ---> """).lower()
       if picked_item in current_items_names:
         for i in player.current_room.items:
           if i.name == picked_item:
-            picked_item = i
+            player.current_room.items.remove(i)
+            player.items.append(i)
+            async def response():
+              i.on_take()
+              await asyncio.sleep(3)
+              
+            asyncio.run(response())
+            continue
       else:
         async def response():
           print(f'\nThere is no such item in this room!')
