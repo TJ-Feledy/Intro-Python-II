@@ -138,10 +138,11 @@ and press enter ---> """).lower()
 
   elif len(user_input.split()) == 2:
     picked_item = user_input.split()[1]
-    current_items_names = [i.name for i in player.current_room.items]
+    room_items_names = [i.name for i in player.current_room.items]
+    player_items_names = [i.name for i in player.items]
 
-    if user_input.split()[0] == 'take':
-      if picked_item in current_items_names:
+    if user_input.split()[0] in ['take', 'get']:
+      if picked_item in room_items_names:
         for i in player.current_room.items:
           if i.name == picked_item:
             player.current_room.items.remove(i)
@@ -159,7 +160,26 @@ and press enter ---> """).lower()
           
         asyncio.run(response())
         continue
-    
+
+    elif user_input.split()[0] in ['drop', 'leave']:
+      if picked_item in player_items_names:
+        for i in player.items:
+          if i.name == picked_item:
+            player.items.remove(i)
+            player.current_room.items.append(i)
+            async def response():
+              i.on_drop()
+              await asyncio.sleep(3)
+              
+            asyncio.run(response())
+            continue
+      else:
+        async def response():
+          print(f'\nYou do not posses that item!')
+          await asyncio.sleep(3)
+          
+        asyncio.run(response())
+        continue
   else:
     async def response():
       print(f'\nYou must enter a valid command!')
