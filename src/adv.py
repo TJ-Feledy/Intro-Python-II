@@ -180,9 +180,17 @@ and press enter ---> """).lower()
           
         asyncio.run(response())
         continue
+    else:
+      async def response():
+        print(f'\n{user_input.split()[0]} is not a valid action!')
+        await asyncio.sleep(3)
+        
+      asyncio.run(response())
+      continue
+
   else:
     async def response():
-      print(f'\nYou must enter a valid command!')
+      print(f'\n{user_input} is not a valid action!')
       await asyncio.sleep(3)
         
     asyncio.run(response())
