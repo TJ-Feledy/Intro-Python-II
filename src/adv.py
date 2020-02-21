@@ -151,13 +151,18 @@ What would you like to do? (enter 'q' to quit) ---> """).lower()
 
     elif user_input.split()[0] in ['drop', 'leave']:
       if picked_item in player_items_names:
-        for i in player.items:
-          if i.name == picked_item:
-            player.items.remove(i)
-            player.current_room.items.append(i)
-            i.on_drop()      
+        if player.current_room.name != 'Outside Cave Entrance' and picked_item == 'lantern':
+          print('\nCannot drop the lantern. You need it to see!')
+        elif player.current_room.name != 'Outside Cave Entrance' and picked_item == 'lighter':
+          print('\nCannot drop the lighter. What if the lantern goes out?')
+        else:
+          for i in player.items:
+            if i.name == picked_item:
+              player.items.remove(i)
+              player.current_room.items.append(i)
+              i.on_drop()      
       else:
-        print(f'\nYou do not posses that item!')      
+        print(f'\nYou do not possess that item!')      
         continue
     else:
       print(f'\n{user_input.split()[0]} is not a valid action!')      
